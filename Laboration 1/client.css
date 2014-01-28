@@ -54,7 +54,6 @@ body {
     height: 100%;
     background-color: white;
     border: solid 1px black;
-    clear: both;
 }
 
 .twidder_form input, .twidder_form select {
@@ -73,4 +72,51 @@ body {
 
 .twidder_form select {
     width: 117px;
+}
+
+ul.nav_menu{	
+    list-style-type:none;
+    padding:0;
+    display: inline;
+}
+
+ul.nav_menu li{	
+    display: inline-block;
+    float: left;
+}
+
+a.nav_menu:link,a.nav_menu:visited{	
+    display:inline-block;
+    width:120px;
+    font-weight:bold;
+    color:#FFFFFF;
+    background-color:#000000;
+    text-align:center;
+    padding:4px;
+    text-decoration:none;
+}
+a.nav_menu:hover,a.nav_menu:active{	
+    background-color:#383838;
+}
+
+#home_content{
+    display: block;
+}
+
+#browse_content{
+    display: none;
+}
+
+#account_content{
+    display: none;
+}
+
+#tab_menu{
+    display: inline-block;
+}
+
+.main_wrapper{
+    width: 480px;
+    height: 600px;
+    margin: 5% auto;
 }

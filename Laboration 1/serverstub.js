@@ -30,6 +30,11 @@ serverstub.copyUser = function(user){
 
 
 // Public methods
+
+serverstub.showUsers = function(){
+  console.log(users);  
+};
+
 serverstub.signIn = function(email, password){
     if(users[email] != null && users[email].password == password){
         var letters = "abcdefghiklmnopqrstuvwwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";

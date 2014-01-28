@@ -1,7 +1,9 @@
 window.onload = function() {
-	
-	updateView();
-	
+	updateView(localStorage.getItem('clientToken'));
+    serverstub.showUsers();    
+};
+
+function bindWelcomEvents(){
     document.getElementById('signup_button').onclick = function(event) {
         
         event.preventDefault();
@@ -52,7 +54,7 @@ window.onload = function() {
         return false;
     };
     
-    document.getElementById('login_button').onclick = function(event) {
+document.getElementById('login_button').onclick = function(event) {
 			
 	// Always prevent from actually sending the request.
 		event.preventDefault();
@@ -68,12 +70,22 @@ window.onload = function() {
 		return false;
 	}
 	
-	var elements = this.parentNode;
-	var token = serverstub.signIn(elements["email"], elements["password"]);	
-	console.log(token);
+	var elements = this.parentNode, 
+        token = serverstub.signIn(elements["email"].value, elements["password"].value);
+    
+    if(token.success){
+        localStorage.setItem('clientToken',token.data);
+        updateView(localStorage.getItem('clientToken'));
+    }
+    else{
+        elements['email'].style.borderColor = 'darkred';
+        elements['password'].style.borderColor = 'darkred';
+        message.innerHTML = token.message;
+    }
+        
 	return false;
-	}
-};
+    };
+}
 
 function validatePasswordFields(context) {
     var pwds = context.parentNode.getElementsByClassName('repeat_password');
@@ -113,16 +125,70 @@ function validateEmptyFields(context){
 }
 
 function updateView(token) {
-
-	var undefined,
+        var undefined;
 		view = "<strong>Something went terrably wrong on the server.</strong>",
     	wrap = document.getElementById('view_wrap');
 
-	if(token === undefined || token === "") {
+	if(token === undefined || token === '') {
 		view = document.getElementById('welcomeview').innerHTML;
+        wrap.innerHTML=view;
+        bindWelcomEvents();
 	} else {
-		view = document.getElementById('signedinview').innerHTML;
+		view = document.getElementById('profileview').innerHTML;
+        wrap.innerHTML=view;
+        
+        document.getElementById('home_tab').onclick = function(event){
+            event.preventDefault();
+            document.getElementById('home_content').style.display = 'block';
+            document.getElementById('browse_content').style.display = 'none';
+            document.getElementById('account_content').style.display = 'none';
+        };
+        
+        document.getElementById('browse_tab').onclick = function(event){
+            event.preventDefault();
+            document.getElementById('home_content').style.display = 'none';
+            document.getElementById('browse_content').style.display = 'block';
+            document.getElementById('account_content').style.display = 'none';
+        };
+        
+        document.getElementById('account_tab').onclick = function(event){
+            event.preventDefault();
+            document.getElementById('home_content').style.display = 'none';
+            document.getElementById('browse_content').style.display = 'none';
+            document.getElementById('account_content').style.display = 'block';
+            
+            document.getElementById('logout').onclick = function(event){
+                var response = serverstub.signOut(localStorage.getItem('clientToken'));
+                if(response.success){
+                    localStorage.setItem('clientToken', "");
+                    updateView(localStorage.getItem('clientToken'));
+                }
+            }
+            
+            document.getElementById('change_button').onclick = function(event){
+                event.preventDefault();
+                var message	= this.parentNode.getElementsByClassName('message_area')[0];
+                var element = this.parentNode;
+                if(!validateEmptyFields(this)) {
+			         // Fields are empty, displaying
+                    message.innerHTML = 'All fields are mandatory.';
+                    return false;
+                } else if (!validatePasswordFields(this)) {
+                    // Fields are empty, displaying 
+                    message.innerHTML = 'Password fields must contain the same value.';
+                    return false;
+                }
+                
+                var response = serverstub.changePassword(localStorage.getItem('clientToken'),
+                                                                      element['old_pass'].value,
+                                                                      element['new_pass'].value);
+                                                         
+                message.innerHTML = response.message;
+                serverstub.showUsers();
+            }
+                    
+        };
 	}
 
-	wrap.innerHTML=view;
+
 }

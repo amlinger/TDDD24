@@ -6,6 +6,7 @@
 <script type=”text/view” id="welcomeview">
 <div id="wrapper">
             <div id="logo">
+                <img src="wimage.png">
             </div>
             <div id="login">
                 <form id="login_form" class="twidder_form">
@@ -51,6 +52,39 @@
             
         </div>
 </script>
+    
+<script type=”text/view” id="profileview">
+    <section class="main_wrapper">
+        <img src="profileview.jpg"><br>
+        <div id="tab_menu">
+		  <ul class="nav_menu">
+			<li><a class="nav_menu" href="#" id="home_tab">Home</a></li>
+			<li><a class="nav_menu" href="#" id="browse_tab">Browse</a></li>
+			<li><a class="nav_menu" href="#" id="account_tab">Account</a></li>
+            </ul>
+        </div>
+        <div id="home_content">
+            Home
+        </div>
+        <div id="browse_content">
+            Browse
+        </div>
+        <div id="account_content">
+            <button type="button" id="logout">Log out</button>
+            <form id="account_form" class="twidder_form">
+                <div class="message_area"></div>
+                <label for="old_pass">Old Password</label>
+                <input type="password" name="old_pass">
+                <label for="new_pass">New Password</label>
+                <input type="password" class="repeat_password" name="new_pass">     
+                <label for="re_new_pass">Repeat New Password</label>
+                <input type="password" class="repeat_password" name="re_new_pass">
+                <input type="submit" id="change_button" value="Change Password">
+            </form>
+        </div>
+    </section>
+</script>
+    
 </head>
 <body>
     <div id="view_wrap">
