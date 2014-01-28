@@ -22,7 +22,40 @@ window.onload = function() {
 			message.innerHTML = 'Password fields must contain the same value.';
 			return false;
 		}
-
+        
+        
+        
+        var form = document.getElementById('signup_form');
+        
+        var formObject = {
+            firstname : form.elements['firstname'].value,
+            familyname : form.elements['familyname'].value,
+            gender : form.elements['gender'].value,
+            city : form.elements['city'].value,
+            country : form.elements['country'].value,
+            email : form.elements['email'].value,
+            password: form.elements['password'].value    
+        }
+        
+        var answer = serverstub.signUp(formObject);
+        
+        message.innerHTML = answer.message;
+        
+        if(answer.success){
+            form.elements['firstname'].value = "";
+            form.elements['familyname'].value = "";
+            form.elements['gender'].value = "";
+            form.elements['city'].value = "";
+            form.elements['country'].value = "";
+            form.elements['email'].value = "";
+            form.elements['password'].value = "";
+            form.elements['re_password'].value = "";
+        }
+        
+        else{
+            form.elements['email'].style.borderColor = "darkred";
+        }
+        
         return false;
     };
     
