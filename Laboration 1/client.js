@@ -1,50 +1,68 @@
-window.onload = function(){
-    var view = document.getElementById('welcomeview').innerHTML;
-    var wrap = document.getElementById('view_wrap');
+window.onload = function() {
+	
+	// Fetching views  
+	var view = document.getElementById('welcomeview').innerHTML,
+    	wrap = document.getElementById('view_wrap');
+				
+		
     wrap.innerHTML=view;
     
     document.getElementById('signup_button').onclick = function(event) {
         
         event.preventDefault();
-        if(validateEmptyFields(this)) {
-            validatePasswordFields(this);
-        }
-        
+		var message	= this.parentNode.getElementsByClassName('message_area')[0];
+			
+			
+        if(!validateEmptyFields(this)) {
+			// Fields are empty, displaying 
+			message.innerHTML = 'All fields are mandatory.';
+			return false;
+        } else if (!validatePasswordFields(this)) {
+			// Fields are empty, displaying 
+			message.innerHTML = 'Password fields must contain the same value.';
+			return false;
+		}
+
         return false;
     };
     
-     document.getElementById('login_button').onclick = function(event) {
-        
-        event.preventDefault();
-        validateEmptyFields(this);
-         
-        return false;
-    };
-    /*
-    var button = document.getElementsByTagName('input');
+    document.getElementById('login_button').onclick = function(event) {
+			
+			// Always prevent from actually sending the request.
+      event.preventDefault();
+			 
+			// Fetch the message area for displaying error messages.
+			var message	= this.parentNode.getElementsByClassName('message_area')[0];
+			
+			/* 	Only validation for Login area is the check for all fields being
+					non-empty. If this is not OK, display error message and exit 
+					function. */
+			if(!validateEmptyFields(this)) {
+				message.innerHTML = 'Please fill out an <b>Email</b> and  a <b>Password</b>.';
+				return false;
+			}
+			
+			message.innerHTML = 'Please fill out an <b>Email</b> and  a <b>Password</b>.';
+			
+      return false;
+	 
+		};
     
-    for(var i=0, len=button.length; i<len; i++){
-        if(button[i].hasAttribute('type') && button[i].getAttribute('type') === 'submit'){
-            
-        }
-    }*/
   
 };
 
 function validatePasswordFields(context) {
     var pwds = context.parentNode.getElementsByClassName('repeat_password');
     
-    if(pwds[0].value !== pwds[1].value) {
-        pwds[0].style.border = 'solid 1px red';
+	if(pwds[0].value !== pwds[1].value) {
+        pwds[0].style.borderColor = 'darkred';
         pwds[0].value = "";
-        pwds[1].style.border = 'solid 1px red';
+        pwds[1].style.borderColor = 'darkred';
         pwds[1].value = "";
-        
-        var textArea = context.parentNode.getElementsByClassName('message_area')[0];
-        textArea.innerHTML="Skindak!";
         
         return false;
     }
+	
     return true;
 }
 
@@ -57,10 +75,10 @@ function validateEmptyFields(context){
     while(element){
         if(element.tagName === 'INPUT'){
             if(!element.value){
-                element.style.border = 'solid 1px red';
+                element.style.borderColor = 'darkred';
                 errorExists = true;
             } else {
-                // restore border
+                element.style.borderColor = '';
             }
         }
        
@@ -68,12 +86,4 @@ function validateEmptyFields(context){
     }
     
     return !errorExists;
-    /*
-    if(errorExists){
-        return false;
-    }
-    else{
-        return true;
-    }*/
 }
-

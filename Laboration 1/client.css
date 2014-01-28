@@ -9,6 +9,7 @@ body {
 }
 
 #logo {
+	background:green;
     width: 340px;
     height: 100%;
     float: left;
@@ -16,18 +17,36 @@ body {
 
 #login {
     width: 250px;
-    height: 150px;
+    height: 120px;
     float: right;
 }
 
 #signup {
     width: 250px;
-    height: 245px;
+    height: 275px;
     margin-top: 5px;
     float: right;
 }
 .message_area {
-    min-height: 20px;
+	font-family: "Tahoma" sans-serif;
+	font-size: 11px;
+	min-height: 20px;
+	padding: 5px;
+	
+}
+
+.twidder_form fieldset {
+	border: 	none;
+	margin: 	0;
+	padding:	0;
+}
+
+.twidder_form legend {
+	line-height:	25px;
+	font-family:	"Segooe UI" sans-serif;
+	font-size: 		15px;
+	font-weight: 	bold;
+	text-transform:	uppercase;
 }
 
 .twidder_form {
