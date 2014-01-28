@@ -1,12 +1,7 @@
 window.onload = function() {
 	
-	// Fetching views  
-	var view = document.getElementById('welcomeview').innerHTML,
-    	wrap = document.getElementById('view_wrap');
-				
-		
-    wrap.innerHTML=view;
-    
+	updateView();
+	
     document.getElementById('signup_button').onclick = function(event) {
         
         event.preventDefault();
@@ -22,33 +17,32 @@ window.onload = function() {
 			message.innerHTML = 'Password fields must contain the same value.';
 			return false;
 		}
-
-        return false;
+		
+		
+		return false;
     };
     
     document.getElementById('login_button').onclick = function(event) {
 			
-			// Always prevent from actually sending the request.
-      event.preventDefault();
-			 
-			// Fetch the message area for displaying error messages.
-			var message	= this.parentNode.getElementsByClassName('message_area')[0];
-			
-			/* 	Only validation for Login area is the check for all fields being
-					non-empty. If this is not OK, display error message and exit 
-					function. */
-			if(!validateEmptyFields(this)) {
-				message.innerHTML = 'Please fill out an <b>Email</b> and  a <b>Password</b>.';
-				return false;
-			}
-			
-			message.innerHTML = 'Please fill out an <b>Email</b> and  a <b>Password</b>.';
-			
-      return false;
+	// Always prevent from actually sending the request.
+		event.preventDefault();
 	 
-		};
-    
-  
+	// Fetch the message area for displaying error messages.
+	var message	= this.parentNode.getElementsByClassName('message_area')[0];
+	
+	/* 	Only validation for Login area is the check for all fields being
+			non-empty. If this is not OK, display error message and exit 
+			function. */
+	if(!validateEmptyFields(this)) {
+		message.innerHTML = 'Please fill out an <b>Email</b> and  a <b>Password</b>.';
+		return false;
+	}
+	
+	var elements = this.parentNode;
+	var token = serverstub.signIn(elements["email"], elements["password"]);	
+	console.log(token);
+	return false;
+	}
 };
 
 function validatePasswordFields(context) {
@@ -86,4 +80,19 @@ function validateEmptyFields(context){
     }
     
     return !errorExists;
+}
+
+function updateView(token) {
+
+	var undefined,
+		view = "<strong>Something went terrably wrong on the server.</strong>",
+    	wrap = document.getElementById('view_wrap');
+
+	if(token === undefined || token === "") {
+		view = document.getElementById('welcomeview').innerHTML;
+	} else {
+		view = document.getElementById('signedinview').innerHTML;
+	}
+
+	wrap.innerHTML=view;
 }
