@@ -24,14 +24,14 @@
                     <fieldset>
                         <legend>Sign up here</legend>
                         <div class="message_area"></div>
-                        <label for="firstname">Fistname</label>
+                        <label for="firstname">Firstname</label>
                         <input type="text" name="firstname">
                         <label for="familyname">Familyname</label>
                         <input type="text" name="familyname">
                         <label for="gender">Gender</label>
                         <select name="gender">
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
                         </select>
                         <label for="city">City</label>
                         <input type="text" name="city">
@@ -64,10 +64,50 @@
             </ul>
         </div>
         <div id="home_content">
-            Home
+            <div id="user_profile">
+                <span>Email: </span><span name="email"></span>
+                <span>First Name: </span><span name="firstname"></span>
+                <span>Last Name: </span><span name="familyname"></span>
+                <span>Gender: </span><span name="gender"></span>
+                <span>City: </span><span name="city"></span>
+                <span>Country: </span><span name="country"></span>
+            </div>
+            <div id="post_area">
+                <form id='post_form'>
+                <textarea rows="3" cols="45" id="post_text_area"></textarea>
+                <input type="submit" id="post_button" value="Post">
+            </div>
+            <section id="wall">
+            </section>
+            <div id="update_wall">
+                <button id="update_wall_button">Update Wall</button>
+            </div>
+                
         </div>
         <div id="browse_content">
-            Browse
+            <form id="browse_form">
+                <input type="text" id="search_field">
+                <input type="submit" id="search_button" value="Search">
+            </form>
+            <div id="browse_profile" class="browse_element">
+               <span>Email: </span><span name="email"></span>
+                <span>First Name: </span><span name="firstname"></span>
+                <span>Last Name: </span><span name="familyname"></span>
+                <span>Gender: </span><span name="gender"></span>
+                <span>City: </span><span name="city"></span>
+                <span>Country: </span><span name="country"></span>
+            </div>
+            <div id="browse_post_area" class="browse_element">
+                <form id='browse_post_form'>
+                <textarea rows="3" cols="45" id="browse_post_text_area"></textarea>
+                <input type="submit" id="browse_post_button" value="Post">
+            </div>
+            <section id="browse_wall" class="browse_element">
+            </section>
+            <div id="browse_update_wall" class="browse_element">
+                <button id="update_wall_button">Update Wall</button>
+            </div>
+            
         </div>
         <div id="account_content">
             <button type="button" id="logout">Log out</button>

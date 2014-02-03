@@ -120,3 +120,16 @@ a.nav_menu:hover,a.nav_menu:active{
     height: 600px;
     margin: 5% auto;
 }
+
+textarea{
+    resize: none;
+}
+
+article{
+    border: solid 1px black;
+    background-color: white;
+}
+
+.browse_element{
+    display: none;
+}
