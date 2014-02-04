@@ -87,18 +87,18 @@ function bindWelcomEvents() {
     	}
     	
     	var elements = this.parentNode, 
-            token = serverstub.signIn(elements["email"].value, elements["password"].value);
+            response = serverstub.signIn(elements["email"].value, elements["password"].value);
         
         /* Present the new view if login request is successful, otherwise
            indicate the error by a red border around the input area. */
-        if(token.success){
-            localStorage.setItem('clientToken',token.data);
+        if(response.success){
+            localStorage.setItem('clientToken',response.data);
             updateView(localStorage.getItem('clientToken'));
         
         } else {
             elements['email'].style.borderColor     = 'darkred';
             elements['password'].style.borderColor  = 'darkred';
-            message.innerHTML = token.message;
+            message.innerHTML = response.message;
         }
             
     	return false;
@@ -178,9 +178,9 @@ function updateView(token) {
     
     else {
 		view = document.getElementById('profileview').innerHTML;
-        console.log(view);
         wrap.innerHTML=view; 
         
+        showTab('home');
         bindDefaultEvents();
         bindHomeTabEvents();
         bindBrowseTabEvents();
@@ -233,23 +233,52 @@ function printUserData(userData,element){
     }         
 }
 
+function hasClass(element, className) {
+    return (element.getAttribute('class').indexOf(className) !== -1);
+}
+
+function removeClass(element, className) {
+    if(hasClass(element, className)) {
+        element.setAttribute('class', element.getAttribute('class').replace(className, ""));
+        return true;
+    }
+    return false;
+}
+
+function addClass(element, className) {
+    if(!hasClass(element, className)) {
+        element.setAttribute('class', (element.getAttribute('class') + " " + className));
+        return true;
+    }
+    return false;
+}
+
+function showTab(selected) {
+    var tabs = ['home', 'browse', 'account'];
+
+
+    for(var tab in tabs) {
+        removeClass(document.getElementById(tabs[tab] + '_tab'), 'highlight');
+        removeClass(document.getElementById(tabs[tab] + '_content'), 'visible');
+    }
+
+    addClass(document.getElementById(selected + '_tab'), 'highlight');
+    addClass(document.getElementById(selected + '_content'), 'visible');
+}
+
 function bindHomeTabEvents(){
     document.getElementById('home_tab').onclick = function(event){
-        event.preventDefault();
-        document.getElementById('home_content').style.display = 'block';
-        document.getElementById('browse_content').style.display = 'none';
-        document.getElementById('account_content').style.display = 'none';
-            
+        event.preventDefault(); 
+        showTab('home');
         bindDefaultEvents();
     };
 }
 
+
 function bindBrowseTabEvents(){
     document.getElementById('browse_tab').onclick = function(event){
         event.preventDefault();
-        document.getElementById('home_content').style.display = 'none';
-        document.getElementById('browse_content').style.display = 'block';
-        document.getElementById('account_content').style.display = 'none';
+        showTab('browse');
         
         document.getElementById('search_button').onclick = function(event){
             event.preventDefault();
@@ -301,9 +330,7 @@ function bindBrowseTabEvents(){
 function bindAccountTabEvents(){
     document.getElementById('account_tab').onclick = function(event){
         event.preventDefault();
-        document.getElementById('home_content').style.display = 'none';
-        document.getElementById('browse_content').style.display = 'none';
-        document.getElementById('account_content').style.display = 'block';
+        showTab('account');
         
         document.getElementById('logout').onclick = function(event){
             var response = serverstub.signOut(localStorage.getItem('clientToken'));

@@ -125,7 +125,7 @@ ul.nav_menu li {
     float: left;
 }
 
-a.nav_menu:link,a.nav_menu:visited{	
+a.nav_menu:link {	
     display:inline-block;
     width:120px;
     font-weight:bold;
@@ -134,15 +134,25 @@ a.nav_menu:link,a.nav_menu:visited{
     padding:4px;
     text-decoration:none;
 }
-a.nav_menu:hover, a.nav_menu:active{	
+a.nav_menu:hover {	
     background-color:#383838;
+}
+a.nav_menu:active {
+    background-color:#454545;    
+}
+
+#tab_menu .highlight {
+    color: #23E912;
 }
 
 #account_content, 
-#browse_content{
-    display: none;
-}, 
+#browse_content, 
 #home_content {
+    display: none;
+}
+#account_content.visible, 
+#browse_content.visible, 
+#home_content.visible {
     display: block;
 }
 
