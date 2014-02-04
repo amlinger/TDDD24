@@ -35,10 +35,25 @@ body {
 	
 }
 
+/*
+    Form styling
+    =======================
+*/
+
+
+.twidder_form {
+    width:              100%;
+    height:             100%;
+    background-color:   white;
+    border:             solid 1px black;
+}
+
 .twidder_form fieldset {
 	border: 	none;
+    display:    block;
 	margin: 	0;
 	padding:	0;
+    clear: both;
 }
 
 .twidder_form legend {
@@ -49,38 +64,63 @@ body {
 	text-transform:	uppercase;
 }
 
-.twidder_form {
-    width: 100%;
-    height: 100%;
-    background-color: white;
-    border: solid 1px black;
-}
-
-.twidder_form input, .twidder_form select {
-    float: right;
-    margin-right: 5px;
-    clear: right;
+.twidder_form input {
+    float:      right;
+    margin:     1px 5px 1px 0;
+    padding:    1px 0;
+    clear:      right;
+    height:     13px;
 }
 
 .twidder_form label {
-    float: left;
-    margin-left: 5px;
-    height: 23px;
-    display: block;
-    clear: left;
+    display:    block;
+    
+    height:     23px;
+    
+    padding:    0;
+    margin:     0 0 0 5px;
+    
+    clear:      left;
+    float:      left;
+}
+
+.twidder_form input[type="submit"] {
+    clear:      both;
+    margin:     1px 5px 0 0;
+    height:     20px;
+    padding:    0;
 }
 
 .twidder_form select {
     width: 117px;
+    float:      right;
+    margin:     1px 5px 1px 0;
+    padding:    0;
+    clear:      right;
+    height:     21px;
 }
 
-ul.nav_menu{	
-    list-style-type:none;
-    padding:0;
-    display: inline;
+
+/*
+    Form styling
+    =======================
+*/
+
+#tab_menu {
+    background-color:   #000;
+    display:            block;
+    height:             28px;
+    width:              100%;
 }
 
-ul.nav_menu li{	
+ul.nav_menu {
+    display:            block;	
+    list-style-type:    none;
+    padding:            0;
+    margin:             0;
+}
+
+ul.nav_menu li {	
     display: inline-block;
     float: left;
 }
@@ -90,34 +130,39 @@ a.nav_menu:link,a.nav_menu:visited{
     width:120px;
     font-weight:bold;
     color:#FFFFFF;
-    background-color:#000000;
     text-align:center;
     padding:4px;
     text-decoration:none;
 }
-a.nav_menu:hover,a.nav_menu:active{	
+a.nav_menu:hover, a.nav_menu:active{	
     background-color:#383838;
 }
 
-#home_content{
+#account_content, 
+#browse_content{
+    display: none;
+}, 
+#home_content {
     display: block;
 }
 
-#browse_content{
-    display: none;
+.profile {
+    margin:         10px;
+    font-family:    "Tahoma" sans-serif;
+    font-size:      12px;
 }
 
-#account_content{
-    display: none;
-}
-
-#tab_menu{
-    display: inline-block;
+.profile .label {
+    display:        inline-block;
+    font-weight:    bold;
+    text-transform: uppercase;
+    width:          120px;
 }
 
 .main_wrapper{
+    background: #EEE;
     width: 480px;
-    height: 600px;
+    min-height: 600px;
     margin: 5% auto;
 }
 
@@ -132,4 +177,15 @@ article{
 
 .browse_element{
     display: none;
+}
+
+.header_wrapper {
+    overflow: hidden;
+
+    height: 250px;
+    width:  480px;
+}
+
+.push {
+    clear: both;
 }
