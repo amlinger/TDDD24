@@ -1,6 +1,0 @@
-POST /sign_in HTTP/1.1
-Host: 127.0.0.1
-Content-Type: application/x-www-form-urlencoded
-Content-Length: 31
-
-email=tg@mail.com&password=1234

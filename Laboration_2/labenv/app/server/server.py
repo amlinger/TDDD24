@@ -1,7 +1,13 @@
 from database_helper import *
 from flask import Flask, request, jsonify
+
 app = Flask(__name__)
 db = DatabaseHelper(app)
+
+@app.route('/')
+def hello_world():
+    return app.send_static_file('../client/client.html')
+
 
 @app.route('/sign_up', methods=['POST'])
 def sign_up():
@@ -25,13 +31,14 @@ def sign_up():
 		success = True,
 		message = "User signed up")
 
-
-
-@app.route('/sign_in', methods=['POST'])
+@app.route('/sign_in', methods=['POST', 'OPTIONS'])
 def sign_in():
 
 	email = request.form['email']
 	password = request.form['password']
+
+	print(email)
+	print(password)
 
 
 
