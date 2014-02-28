@@ -1,6 +1,7 @@
 from database_helper import *
 from flask import Flask, request, jsonify
 
+
 app = Flask(__name__)
 db = DatabaseHelper(app)
 
@@ -13,18 +14,14 @@ def hello_world():
 
 @app.route('/register_socket')
 def register_socket():
-	print(0.5)
 	if request.environ.get('wsgi.websocket'):
-		print(1)
 		ws = request.environ['wsgi.websocket']
-		print(2)
 		while True:
-			print(3)
-			message = ws.wait()
-			print(4)
+			print("listening")
+			message = ws.receive()
+			print(message)
 			ws.send(message)
 	return
-
 
 @app.route('/sign_up', methods=['POST'])
 def sign_up():

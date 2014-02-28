@@ -5,16 +5,20 @@
 var serverproxy = new Object();
 
 // Public methods
+console.log("Creating websocket");
+ws = new WebSocket("ws://127.0.0.1:5000//register_socket");
 
-var webSocket = new WebSocket("ws://" + document.domain + ":5000/register_socket");
-
-webSocket.onmessage = function (event) {
+ws.onmessage = function (event) {
   console.log(event.data);
-}
-while(webSocket.readyState === 0){
-}
+};
 
-webSocket.send('Hest');
+ws.onerror = function() {
+    console.log("Error!");
+};
+
+ws.onopen = function () {
+  ws.send("Hest");
+};
 
 function createXHR(){
     if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
