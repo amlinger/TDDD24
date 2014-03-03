@@ -120,6 +120,7 @@ function bindWelcomEvents() {
                 if(response.success){
                     localStorage.setItem('clientToken',response.data);
                     updateView(localStorage.getItem('clientToken'));
+                    serverproxy.connectWebSocket(response.data);
                 
                 } else {
                     elements['email'].addClass('error');
@@ -281,6 +282,12 @@ function bindDefaultEvents() {
         printUserData(userData,element);
         serverproxy.getUserMessagesByToken(getToken(), printHomePosts);
 
+        serverproxy.webSocketMessage(function(response){
+            if(response.message === "update_wall" && response.data === userData.data.email){
+                serverproxy.getUserMessagesByToken(token, printHomePosts);
+            }
+        });
+
         document.getElementById('post_button').onclick = function(event){
             event.preventDefault();
             var message = document.getElementById('post_text_area').value;
@@ -313,10 +320,7 @@ function bindBrowseTabEvents(){
         serverproxy.getUserDataByEmail(token, email, function(userData){
             if(!userData.success) return;
 
-
-            console.log(userData);
             email = userData.data.email;
-            console.log(email);
             field.value = '';
 
             var browse_elements = document.getElementsByClassName('browse_element');
@@ -326,6 +330,15 @@ function bindBrowseTabEvents(){
 
             printUserData(userData, document.getElementById('browse_profile').firstChild);
             serverproxy.getUserMessagesByEmail(token, email, printBrowsePosts);
+
+            serverproxy.webSocketMessage(function(response){
+                console.log(response);
+                console.log(userData);
+                
+                if(response.message === "update_wall" && response.data === userData.data.email){
+                    serverproxy.getUserMessagesByEmail(token,email, printBrowsePosts);
+                }
+            });
 
             document.getElementById('browse_post_button').onclick = function(event){
                 event.preventDefault();
@@ -341,6 +354,7 @@ function bindBrowseTabEvents(){
             };
 
             document.getElementById('update_wall_button').onclick = function(event){
+                event.preventDefault();
                 serverproxy.getUserMessagesByEmail(token,email, printBrowsePosts);
             };
         });                                

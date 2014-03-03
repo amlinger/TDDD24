@@ -1,9 +1,11 @@
 from database_helper import *
-from flask import Flask, request, jsonify
-
+from flask import Flask, request, jsonify, g
+import json
 
 app = Flask(__name__)
 db = DatabaseHelper(app)
+
+sockets = {}
 
 @app.route('/')
 def hello_world():
@@ -18,10 +20,14 @@ def register_socket():
 		ws = request.environ['wsgi.websocket']
 		while True:
 			print("listening")
-			message = ws.receive()
-			print(message)
-			ws.send(message)
-	return
+			token = ws.receive()
+			if(db.is_user_logged_in(token)):
+				sockets[token] = ws
+			else:
+				ws.close()
+				break
+			print(sockets)
+	return ""
 
 @app.route('/sign_up', methods=['POST'])
 def sign_up():
@@ -86,6 +92,10 @@ def sign_out():
 			message = "User not logged in")
 	
 	db.logout(token)
+	
+	if(token in sockets):
+		sockets[token].close()
+		del sockets[token]
 
 	return jsonify(
 		success = True, 
@@ -175,12 +185,16 @@ def post_message():
 
 	db.post_message(token,message,email)
 
-	try:
-		ws = environ["wsgi.websocket"]
-		ws.send("updated")
-
-	except:
-		traceback.print_exc();
+	for socket_token,socket in sockets.iteritems():
+		if(socket_token not in token):
+			try:
+				socket.send(json.dumps({
+					"success" : True,
+					"message" : "update_wall",
+					"data" : email}))
+			except:
+				socket.close()
+				del sockets[socket_token]
 
 	return jsonify(
 			success = True,

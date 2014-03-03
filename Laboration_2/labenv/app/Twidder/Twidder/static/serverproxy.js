@@ -5,21 +5,6 @@
 var serverproxy = new Object();
 
 // Public methods
-console.log("Creating websocket");
-ws = new WebSocket("ws://127.0.0.1:5000//register_socket");
-
-ws.onmessage = function (event) {
-  console.log(event.data);
-};
-
-ws.onerror = function() {
-    console.log("Error!");
-};
-
-ws.onopen = function () {
-  ws.send("Hest");
-};
-
 function createXHR(){
     if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
         return new XMLHttpRequest();
@@ -35,7 +20,7 @@ function send(url, args, callback) {
     var xmlhttp = createXHR(), 
         argString = ""
 
-    xmlhttp.open("POST", "http://127.0.0.1:5000" + url, true);
+    xmlhttp.open("POST", "http://" + document.domain + ":5000" + url, true);
     xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
 
     xmlhttp.onreadystatechange = function() {
@@ -50,8 +35,28 @@ function send(url, args, callback) {
     });
 
     xmlhttp.send(argString.substring(1));
+};
 
+serverproxy.connectWebSocket = function(token){
+    serverproxy.ws = new WebSocket("ws://" + document.domain + ":5000/register_socket");
 
+    serverproxy.ws.onerror = function() {
+        console.error("Error!");
+    };
+
+    serverproxy.ws.onopen = function () {
+      serverproxy.ws.send(token);
+    };
+
+};
+
+serverproxy.webSocketMessage = function(callback){
+    if(!serverproxy.ws)
+        serverproxy.connectWebSocket(localStorage.getItem('client_token'));
+
+    serverproxy.ws.onmessage = function(event){
+        callback(JSON.parse(event.data));
+    };
 }
 
 serverproxy.signIn = function(email, password, callback){
