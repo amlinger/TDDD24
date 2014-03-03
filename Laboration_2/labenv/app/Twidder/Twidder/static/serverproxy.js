@@ -29,6 +29,7 @@ function createXHR(){
     }
 };
 
+//Sends the XML request to the given route on the server.
 function send(url, args, callback) {
 
     var xmlhttp = createXHR(), 
